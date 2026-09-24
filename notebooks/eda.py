@@ -1,12 +1,3 @@
-"""
-Individual EDA — cryptocurrency market data
-Explores data/markets.csv and data/history.csv using both pandas and duckdb,
-as required by the project spec.
-
-Run from the project root: python notebooks/eda.py
-(or copy this into a Jupyter notebook cell by cell if you'd rather work interactively)
-"""
-
 import pandas as pd
 import duckdb
 
@@ -20,9 +11,6 @@ def section(title):
     print("=" * 70)
 
 
-# ---------------------------------------------------------------------------
-# PART 1: pandas EDA
-# ---------------------------------------------------------------------------
 
 section("PANDAS — Loading and basic structure")
 markets = pd.read_csv("data/markets.csv")
@@ -57,10 +45,7 @@ section("PANDAS — Average price per coin over the full period")
 print(history.groupby("coin_id")["price_usd"].agg(["mean", "min", "max"]))
 
 
-# ---------------------------------------------------------------------------
-# PART 2: duckdb EDA
-# duckdb can query CSV files directly with SQL, no separate load step needed.
-# ---------------------------------------------------------------------------
+
 
 section("DUCKDB — Same top-10-by-market-cap, as SQL")
 result = duckdb.sql("""
