@@ -1,14 +1,3 @@
-"""
-Pulls two datasets from CoinGecko's free public API (no key required):
-
-1. markets.csv   - a snapshot of the top N coins: price, market cap,
-                   24h change, volume. Good for KPIs and bar charts.
-2. history.csv   - daily price history for a few selected coins
-                   over the last N days. Good for line charts.
-
-Run this from the project root: python fetch_data.py
-"""
-
 import requests
 import pandas as pd
 import time
@@ -17,7 +6,7 @@ BASE_URL = "https://api.coingecko.com/api/v3"
 TOP_N_COINS = 50
 HISTORY_DAYS = 90
 HISTORY_COINS = ["bitcoin", "ethereum", "solana", "dogecoin", "cardano"]
-SECONDS_BETWEEN_CALLS = 20  # CoinGecko free tier is very strict; slow down hard
+SECONDS_BETWEEN_CALLS = 20 
 MAX_RETRIES = 4
 
 
@@ -31,7 +20,7 @@ def get_with_retry(url, params):
             continue
         response.raise_for_status()
         return response
-    return None  # gave up after retries; caller decides what to do
+    return None  
 
 
 def fetch_market_snapshot(n=TOP_N_COINS):
@@ -80,7 +69,7 @@ def fetch_price_history(coin_id, days=HISTORY_DAYS):
         return None
     data = response.json()
 
-    prices = data["prices"]  # list of [timestamp_ms, price]
+    prices = data["prices"]  
     df = pd.DataFrame(prices, columns=["timestamp", "price_usd"])
     df["date"] = pd.to_datetime(df["timestamp"], unit="ms").dt.date
     df["coin_id"] = coin_id
